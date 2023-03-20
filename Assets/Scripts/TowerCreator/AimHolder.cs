@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,20 +8,19 @@ namespace TowerCreatorNS
     public class AimHolder : MonoBehaviour
     {
         public AimType Types;
+        public static readonly Dictionary<AimType, Type> EffectTypeMap = new Dictionary<AimType, Type>
+        {
+            { AimType.shoot, typeof(AimModuleShoot) },
+            { AimType.AoE, typeof(AimModuleAoE) }
+        };
 
         public object ReturnType()
         {
-            switch (Types)
+            if (EffectTypeMap.TryGetValue(Types, out Type effectType))
             {
-                case AimType.shoot:
-                    AimModuleShoot e = new AimModuleShoot();
-                    return e;
-                case AimType.AoE:
-                    AimModuleAoE r = new AimModuleAoE();
-                    return r;
-                default:
-                    return null;
+                return effectType;
             }
+            return null;
         }
     }
 

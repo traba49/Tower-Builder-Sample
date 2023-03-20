@@ -45,7 +45,7 @@ namespace DragDrop
         public void SetInSlot(Transform slot)
         {
             transform.SetParent(slot);
-            GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+            _transform.anchoredPosition = Vector3.zero;
         }
 
         public void OnPointerDown(PointerEventData eventData)

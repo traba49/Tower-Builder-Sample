@@ -8,7 +8,7 @@ namespace TowerCreatorNS
 {
     public class TowerCreator : MonoBehaviour
     {
-        public TowerScriptable Tower;
+        private TowerScriptable _tower;
         public static TowerCreator Instance;
         [SerializeField] TextMeshProUGUI _infoText;
 
@@ -22,33 +22,38 @@ namespace TowerCreatorNS
 
         public void CreateTower()
         {
-            Tower = new TowerScriptable(3);
+            _tower = new TowerScriptable(3);
             _infoText.text = "";
             UpdateText();
         }
 
         private void UpdateText()
         {
-            _infoText.text = Tower.ModulesToText();
-
+            _infoText.text = _tower.ModulesToText();
         }
 
         public void AddModule(ModuleHolder holder, int slot)
         {
-            Tower.Modules[slot] = holder.ReturnType();
-            UpdateText();
+            if (_tower.Modules[slot] != holder.ReturnType())
+            {
+                _tower.Modules[slot] = holder.ReturnType();
+                UpdateText();
+            }
         }
 
         public void ChangeAimType(AimHolder holder)
         {
-            Tower.AimType = holder.ReturnType();
-            UpdateText();
+            if (_tower.AimType != holder.ReturnType())
+            {
+                _tower.AimType = holder.ReturnType();
+                UpdateText();
+            }
         }
 
         public void SaveTower()
         {
             SaveData data = SavingSystem.LoadedData();
-            data.AddTower(Tower);
+            data.AddTower(_tower);
             SavingSystem.Savegame(data);
         }
     }

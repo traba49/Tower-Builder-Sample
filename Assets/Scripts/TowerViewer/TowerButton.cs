@@ -16,11 +16,7 @@ namespace TowerViewer
         void SetListener()
         {
             _button = GetComponentInChildren<Button>();
-            _button.onClick.AddListener(delegate
-            {
-                _towerViewer.SetTowerNumber(_saveInt);
-            }
-            );
+            _button.onClick.AddListener(OnClick);
             _text = GetComponentInChildren<TextMeshProUGUI>();
             _text.text = "Tower " + _saveInt.ToString();
         }
@@ -31,6 +27,11 @@ namespace TowerViewer
             _towerViewer = towerViewer;
             _saveInt = saveint;
             SetListener();
+        }
+
+        private void OnClick()
+        {
+            _towerViewer.SetTowerNumber(_saveInt);
         }
     }
 }
